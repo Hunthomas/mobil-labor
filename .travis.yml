@@ -2,3 +2,5 @@ language: android
 dist: trusty
   - build-tools-28.0.0
   - android-28
+before_install:
+  - yes | sdkmanager "platforms;android-29"
