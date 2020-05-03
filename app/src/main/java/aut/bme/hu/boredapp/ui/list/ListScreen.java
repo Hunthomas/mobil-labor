@@ -1,7 +1,9 @@
 package aut.bme.hu.boredapp.ui.list;
 
-import aut.bme.hu.boredapp.model.BoredActivitites;
+import java.util.List;
+
+import aut.bme.hu.boredapp.model.BoredActivity;
 
 public interface ListScreen {
-    void showActivities(BoredActivitites boredActivitites);
+    void showActivities(List<BoredActivity> boredActivitites);
 }

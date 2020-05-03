@@ -2,23 +2,34 @@ package aut.bme.hu.boredapp.network;
 
 import android.content.Context;
 
-import java.io.UncheckedIOException;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 public class NetworkModule {
     private Context context;
-
     public NetworkModule(Context context) {
         this.context = context;
     }
+
     @Provides
     @Singleton
-    public BoredApi provideBoredApi()  {
-        throw new RuntimeException();
+    public Retrofit.Builder provideRetrofit() {
+        return new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create());
+
+    }
+
+    @Provides
+    @Singleton
+    public BoredApi provideBoredApi(Retrofit.Builder retrofitBuilder)  {
+        return retrofitBuilder.baseUrl(NetworkConfiguration.ENDPOINT_ADDRESS)
+                .build()
+                .create(BoredApi.class);
     }
 }
