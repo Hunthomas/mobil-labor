@@ -29,8 +29,6 @@ public class DetailsActivity extends AppCompatActivity implements DetailsScreen 
     TextView activityTypeTv;
     TextView participantsTv;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,30 +44,21 @@ public class DetailsActivity extends AppCompatActivity implements DetailsScreen 
         activityTypeTv = findViewById(R.id.activityTypeTv);
         participantsTv = findViewById(R.id.participantsTv);
 
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        Bundle extras = getIntent().getExtras();
-        if(extras != null){
-            // todo from db
-        } else{
-            try {
-                BoredActivity activity = presenter.getActivity();
-                activityNameTv.setText(activity.getActivity());
-                participantsTv.setText(String.valueOf(activity.getParticipants()));
-                activityTypeTv.setText(activity.getType());
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         presenter.attachScreen(this);
+
+        Bundle extras = getIntent().getExtras();
+        if(extras != null){
+            // todo from db
+        } else{
+            loadFromNetwork();
+        }
     }
 
     @Override
@@ -78,7 +67,22 @@ public class DetailsActivity extends AppCompatActivity implements DetailsScreen 
         presenter.detachScreen();
     }
 
+    public void findNewActivity(View view){
+        loadFromNetwork();
+    }
+
+    private void loadFromNetwork(){
+        try {
+            presenter.getNewActivity();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void showBoredActivity(BoredActivity activity) {
+        activityNameTv.setText(activity.getActivity());
+        participantsTv.setText(String.valueOf(activity.getParticipants()));
+        activityTypeTv.setText(activity.getType());
     }
 }

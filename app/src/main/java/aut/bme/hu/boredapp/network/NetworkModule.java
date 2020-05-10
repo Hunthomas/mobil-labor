@@ -2,7 +2,6 @@ package aut.bme.hu.boredapp.network;
 
 import android.content.Context;
 
-
 import javax.inject.Singleton;
 
 import dagger.Module;

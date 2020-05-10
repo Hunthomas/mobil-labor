@@ -19,7 +19,8 @@ public class BoredRepository {
 
     private BoredDatabase boredDatabase;
 
-    public BoredRepository(){
+    @Inject
+    public BoredRepository(Context context){
         boredDatabase = Room.databaseBuilder(context, BoredDatabase.class, "db_activity").build();
     }
 

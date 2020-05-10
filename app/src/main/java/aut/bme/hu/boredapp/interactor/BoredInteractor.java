@@ -20,5 +20,7 @@ public class BoredInteractor {
         Call<BoredActivity> boredActivityCall = boredApi.getActivity();
         return boredActivityCall.execute().body();
     }
+
+
 }
 
