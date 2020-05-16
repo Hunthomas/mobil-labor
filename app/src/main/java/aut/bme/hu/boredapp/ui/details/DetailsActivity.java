@@ -23,7 +23,7 @@ import aut.bme.hu.boredapp.model.BoredActivity;
 
 public class DetailsActivity extends AppCompatActivity implements DetailsScreen {
     @Inject
-    DetailsPresenter presenter;
+    public DetailsPresenter presenter;
 
     TextView activityNameTv;
     TextView activityTypeTv;
