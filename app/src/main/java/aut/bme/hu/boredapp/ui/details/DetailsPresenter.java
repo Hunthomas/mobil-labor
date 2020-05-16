@@ -27,6 +27,16 @@ public class DetailsPresenter extends Presenter<DetailsScreen> {
         storeActivity(activity);
     }
 
+    public void getFromDb(int key){
+        BoredActivityEntity entity = repository.getActivityById(key);
+        BoredActivity model = new BoredActivity();
+        model.setType(entity.getType());
+        model.setParticipants(entity.getParticipants());
+        model.setKey(entity.getKey());
+        model.setActivity(entity.getActivity());
+        screen.showBoredActivity(model);
+    }
+
     private void storeActivity(BoredActivity activity){
         BoredActivityEntity entity = new BoredActivityEntity();
         entity.setActivity(activity.getActivity());

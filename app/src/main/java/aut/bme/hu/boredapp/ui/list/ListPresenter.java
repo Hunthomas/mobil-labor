@@ -35,4 +35,8 @@ public class ListPresenter extends Presenter<ListScreen> {
             return activity;
         }).collect(Collectors.toList()));
     }
+
+    public void deleteActivityById(int activityKey){
+        repository.deleteById(activityKey);
+    }
 }

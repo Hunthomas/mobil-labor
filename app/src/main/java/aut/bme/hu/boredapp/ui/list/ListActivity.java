@@ -2,9 +2,11 @@ package aut.bme.hu.boredapp.ui.list;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ListView;
 
@@ -16,13 +18,14 @@ import javax.inject.Inject;
 import aut.bme.hu.boredapp.BoredApplication;
 import aut.bme.hu.boredapp.R;
 import aut.bme.hu.boredapp.model.BoredActivity;
+import aut.bme.hu.boredapp.ui.details.DetailsActivity;
 
 public class ListActivity extends AppCompatActivity implements ListScreen {
     @Inject
     ListPresenter presenter;
 
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
+    private ActivityAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
 
     List<BoredActivity> activities = new ArrayList<BoredActivity>();
@@ -39,10 +42,13 @@ public class ListActivity extends AppCompatActivity implements ListScreen {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new ActivityAdapter(activities);
+        adapter = new ActivityAdapter(this, activities);
         recyclerView.setAdapter(adapter);
 
         recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL));
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(adapter));
+        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
     @Override
@@ -63,5 +69,17 @@ public class ListActivity extends AppCompatActivity implements ListScreen {
         activities.clear();
         activities.addAll(boredActivitites);
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void deleteActivity(int activityKey) {
+        presenter.deleteActivityById(activityKey);
+    }
+
+    @Override
+    public void showDetails(int activityKey) {
+        Intent intent = new Intent(this, DetailsActivity.class);
+        intent.putExtra("activityId", activityKey);
+        startActivity(intent);
     }
 }

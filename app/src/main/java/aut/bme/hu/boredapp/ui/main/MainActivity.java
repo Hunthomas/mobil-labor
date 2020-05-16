@@ -8,7 +8,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
 
-import javax.inject.Inject;
 
 import aut.bme.hu.boredapp.BoredApplication;
 import aut.bme.hu.boredapp.R;
@@ -16,8 +15,6 @@ import aut.bme.hu.boredapp.ui.details.DetailsActivity;
 import aut.bme.hu.boredapp.ui.list.ListActivity;
 
 public class MainActivity extends AppCompatActivity {
-    public static final String KEY_BORED_ACTIVITY = "KEY_BORED_ACTIVITY";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

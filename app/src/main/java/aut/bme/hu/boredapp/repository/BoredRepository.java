@@ -34,6 +34,22 @@ public class BoredRepository {
         }.execute();
     }
 
+    public BoredActivityEntity getActivityById(final int activityId){
+        try {
+            return new AsyncTask<Void, Void, BoredActivityEntity>() {
+                @Override
+                protected BoredActivityEntity doInBackground(Void... voids) {
+                    return boredDatabase.daoAccess().getActivityById(activityId);
+                }
+            }.execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public List<BoredActivityEntity> getAll() {
         try {
             return new AsyncTask<Void, Void, List<BoredActivityEntity>>(){
@@ -50,7 +66,8 @@ public class BoredRepository {
         return null;
     }
 
-    public void delete(final BoredActivityEntity boredActivity) {
+    public void deleteById(final int activityId) {
+        final BoredActivityEntity boredActivity = getActivityById(activityId);
         new AsyncTask<Void, Void, Void>(){
             @Override
             protected Void doInBackground(Void... voids){

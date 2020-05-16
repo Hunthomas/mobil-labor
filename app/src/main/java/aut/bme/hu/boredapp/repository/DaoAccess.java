@@ -17,6 +17,9 @@ public interface DaoAccess {
     @Query("SELECT * FROM BoredActivityEntity")
     List<BoredActivityEntity> getAllActivities();
 
+    @Query("SELECT * FROM BoredActivityEntity WHERE `key` = :activityId")
+    BoredActivityEntity getActivityById(int activityId);
+
     @Delete
     void deleteActivity(BoredActivityEntity boredActivity);
 }

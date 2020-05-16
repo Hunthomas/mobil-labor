@@ -55,7 +55,7 @@ public class DetailsActivity extends AppCompatActivity implements DetailsScreen 
 
         Bundle extras = getIntent().getExtras();
         if(extras != null){
-            // todo from db
+            loadFromDb((int)extras.get("activityId"));
         } else{
             loadFromNetwork();
         }
@@ -77,6 +77,10 @@ public class DetailsActivity extends AppCompatActivity implements DetailsScreen 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void loadFromDb(int key){
+        presenter.getFromDb(key);
     }
 
     @Override
