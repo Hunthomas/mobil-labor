@@ -4,6 +4,7 @@ import android.content.Context;
 
 import javax.inject.Singleton;
 
+import aut.bme.hu.boredapp.BoredApplication;
 import dagger.Module;
 import dagger.Provides;
 
@@ -16,8 +17,13 @@ public class RepositoryModule {
     }
 
     @Provides
+    Context provideContext(){
+        return context;
+    }
+
+    @Provides
     @Singleton
     public BoredRepository provideRepository(){
-        throw new RuntimeException();
+        return new BoredRepository(context);
     }
 }
