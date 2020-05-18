@@ -1,19 +1,79 @@
 package aut.bme.hu.boredapp.repository;
 
-import aut.bme.hu.boredapp.model.BoredActivitites;
+import android.content.Context;
+import android.os.AsyncTask;
+
+import androidx.room.Room;
+
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
+import javax.inject.Inject;
+
 import aut.bme.hu.boredapp.model.BoredActivity;
+import aut.bme.hu.boredapp.model.BoredActivityEntity;
 
 public class BoredRepository {
-    void add(BoredActivity activity){
+    @Inject
+    Context context;
 
+    private BoredDatabase boredDatabase;
+
+    @Inject
+    public BoredRepository(Context context){
+        boredDatabase = Room.databaseBuilder(context, BoredDatabase.class, "db_activity").build();
     }
 
-    BoredActivitites getAll() throws Exception {
-        throw new Exception();
+    public void add(final BoredActivityEntity activity){
+        new AsyncTask<Void, Void, Void>(){
+            @Override
+            protected Void doInBackground(Void... voids){
+                boredDatabase.daoAccess().insertActivity(activity);
+                return null;
+            }
+        }.execute();
     }
 
-    void removeById(int id) {
-
+    public BoredActivityEntity getActivityById(final int activityId){
+        try {
+            return new AsyncTask<Void, Void, BoredActivityEntity>() {
+                @Override
+                protected BoredActivityEntity doInBackground(Void... voids) {
+                    return boredDatabase.daoAccess().getActivityById(activityId);
+                }
+            }.execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
+    public List<BoredActivityEntity> getAll() {
+        try {
+            return new AsyncTask<Void, Void, List<BoredActivityEntity>>(){
+                @Override
+                protected List<BoredActivityEntity> doInBackground(Void... voids){
+                    return boredDatabase.daoAccess().getAllActivities();
+                }
+            }.execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void deleteById(final int activityId) {
+        final BoredActivityEntity boredActivity = getActivityById(activityId);
+        new AsyncTask<Void, Void, Void>(){
+            @Override
+            protected Void doInBackground(Void... voids){
+                boredDatabase.daoAccess().deleteActivity(boredActivity);
+                return null;
+            }
+        }.execute();
+    }
 }

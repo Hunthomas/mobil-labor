@@ -1,27 +1,17 @@
 package aut.bme.hu.boredapp.model;
 
-import androidx.annotation.Nullable;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+@Entity
+public class BoredActivityEntity {
 
-import java.io.Serializable;
+    public BoredActivityEntity(){}
 
-public class BoredActivity implements Serializable {
-    @SerializedName("activity")
-    @Expose
     private String activity;
-
-    @SerializedName("type")
-    @Expose
     private String type;
-
-    @SerializedName("participants")
-    @Expose
     private int participants;
-
-    @SerializedName("key")
-    @Expose
+    @PrimaryKey
     private int key;
 
     public String getActivity() {
