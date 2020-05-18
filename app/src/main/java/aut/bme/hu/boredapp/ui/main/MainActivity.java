@@ -9,12 +9,16 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import aut.bme.hu.boredapp.BoredApplication;
 import aut.bme.hu.boredapp.R;
 import aut.bme.hu.boredapp.ui.details.DetailsActivity;
 import aut.bme.hu.boredapp.ui.list.ListActivity;
 
 public class MainActivity extends AppCompatActivity {
+    private FirebaseAnalytics firebaseAnalytics;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +27,14 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         BoredApplication.injector.inject(this);
+
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "MainActivity");
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
+        throw new RuntimeException();
     }
 
     public void showBoredActivity(View view){
